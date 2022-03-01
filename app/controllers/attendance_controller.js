@@ -1,4 +1,4 @@
-const { getAttendanceGuruDB } = require("../models/attendance_db")
+const { getAttendanceGuruDB, getAttendanceSiswaDB } = require("../models/attendance_db")
 
 module.exports = {
     attendController: (req,res)=>{
@@ -20,6 +20,14 @@ module.exports = {
     },
     // get for siswa roles
     getAttendanceSiswaController: (req, res)=>{
-        
+        const data = req.body
+        getAttendanceSiswaDB(data).then((result)=>{
+            
+            res.send({
+                status: "success", 
+                status_code: 200,
+                result: result.rows
+            })
+        })
     }
 }

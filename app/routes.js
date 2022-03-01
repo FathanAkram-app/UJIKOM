@@ -1,4 +1,4 @@
-const { getAttendanceGuruController } = require("./controllers/attendance_controller")
+const { getAttendanceGuruController, getAttendanceSiswaController } = require("./controllers/attendance_controller")
 const { loginController, registerController, logoutController } = require("./controllers/auth_controller")
 const { addPelajaranController, getPelajaranController } = require("./controllers/pelajaran_controller")
 
@@ -19,5 +19,7 @@ module.exports = {
 
         // Attendance
         app.post('/api/getattendanceguru', getAttendanceGuruController)
+
+        app.post('/api/getattendancesiswa', getAttendanceSiswaController)
     }
 }
