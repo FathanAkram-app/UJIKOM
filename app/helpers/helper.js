@@ -55,7 +55,12 @@ module.exports = {
         })
     },
     clientAuthentication : (req)=>{
-        return JSON.parse(Buffer.from(req.headers.authorization, 'base64').toString('ascii')).serverkey == version["serverkey"]
+        if (req.headers.authorization != null) {
+            return JSON.parse(Buffer.from(req.headers.authorization, 'base64').toString('ascii')).serverkey == version["serverkey"]    
+        }else{
+            return false
+        }
+        
     },
     auth: (req)=>{
         return JSON.parse(Buffer.from(req.headers.authorization, 'base64').toString('ascii'))

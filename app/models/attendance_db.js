@@ -20,4 +20,13 @@ module.exports = {
         await conn.end()
         return res
     },
+    attendDB: async (data) =>{
+        const conn = client()
+        await conn.connect()
+        const collumns = "(pelajaran_id, siswa_id, status, guru_id)"
+        const values = "("+data.pelajaran_id+", "+data.siswa_id+", "+data.status+", "+data.guru_id+")"
+        const res = await conn.query("INSERT INTO hadir "+collumns+" VALUES "+values)
+        await conn.end()
+        return res
+    }
 }

@@ -8,6 +8,7 @@ const bodyParser = require('body-parser')
 const http = require('http');
 const { initAuthRoutes } = require('./app/routes')
 const server = http.createServer(app);
+app.use(express.static(__dirname+'/public'));
 
 
 app.use(bodyParser.json())

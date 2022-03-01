@@ -1,12 +1,15 @@
-const { getAttendanceGuruController, getAttendanceSiswaController } = require("./controllers/attendance_controller")
+const { getAttendanceGuruController, getAttendanceSiswaController, attendController } = require("./controllers/attendance_controller")
 const { loginController, registerController, logoutController } = require("./controllers/auth_controller")
 const { addPelajaranController, getPelajaranController } = require("./controllers/pelajaran_controller")
 
 
 module.exports = {
     initAuthRoutes: (app)=>{
-        app.get('/', (req, res) => {
+        app.get('/login', (req, res) => {
             res.sendFile(__dirname+'/views/login.html')
+        })
+        app.get('/dashboard', (req, res) => {
+            res.sendFile(__dirname+'/views/dashboard.html')
         })
         // Auth
         app.post('/api/login', loginController)
@@ -19,7 +22,7 @@ module.exports = {
 
         // Attendance
         app.post('/api/getattendanceguru', getAttendanceGuruController)
-
         app.post('/api/getattendancesiswa', getAttendanceSiswaController)
+        app.post('/api/attend', attendController)
     }
 }
