@@ -1,0 +1,40 @@
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input id="inputusername" type="text" placeholder="Username"></input>
+    <input id="inputpassword" type="password" placeholder="Password"></input>
+    <button onclick="login()">Sign in</button>
+    <script>
+    function getUserPass(){
+        const username = document.getElementById('inputusername').value
+        const password = document.getElementById('inputpassword').value
+        return btoa('{"serverkey":"B1smill4hUJIKOM","username":"'+username+'", "password": "'+password+'"}')
+    }
+    async function requestHttp(
+        url, 
+        method = 'POST',
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': getUserPass()
+        }
+    ){
+        const response = await fetch(url, {
+            method: method,
+            headers: headers,
+        });
+        return response; 
+
+    }
+    function login() {
+        requestHttp("http://localhost:3000/api/login").then(data=>{
+            data.json().then((result)=>{
+                document.cookie = 'token='+result.token
+            })
+        })
+    }
+    </script>
+
+</body>
