@@ -16,6 +16,6 @@ app.use(bodyParser.json())
 require('./app/routes')
 initAuthRoutes(app)
 
-server.listen(port, () => {
+server.listen(3000, () => {
     console.log(`listening at http://localhost:${port}`)
   })

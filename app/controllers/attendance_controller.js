@@ -12,7 +12,6 @@ module.exports = {
                     status_code: 200
                 })
             })
-            
         }else{
             res.send({
                 status: "failed", 
