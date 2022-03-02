@@ -1,4 +1,5 @@
 
+const res = require('express/lib/response')
 const { client } = require('../helpers/helper')
 
 
@@ -22,8 +23,14 @@ module.exports = {
 
         const conn = client()
         await conn.connect()
-        await conn.query("INSERT INTO users (username, password, email) VALUES ('"+data.username+"', '"+data.password+"', '"+data.email+"');")
+        try {
+            const res = await conn.query("INSERT INTO users (username, password, email) VALUES ('"+data.username+"', '"+data.password+"', '"+data.email+"');")
+        } catch (error) {
+            return error
+        }
+        
         await conn.end()
+        return null
     },
     logoutDB: async (token) => {
         const conn = client()

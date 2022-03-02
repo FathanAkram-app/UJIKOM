@@ -1,6 +1,7 @@
 const { clientAuthentication, auth, checkRequirements } = require('../helpers/helper');
 const bcrypt = require('bcrypt');
 const { registerDB, logoutDB, updateTokenDB, findUserByUsernameDB } = require('../models/auth_db');
+const { throws } = require('assert');
 module.exports = {
     loginController : (req, res) =>{
         // '{"serverkey":"B1smill4hUJIKOM","username":"fathan1","password":"123123"}'
@@ -66,9 +67,20 @@ module.exports = {
                     }
 
                     if (checkRequirements(data)) {
-                        registerDB(userData).then(()=>{
-                            res.send({status: "success", status_code: 200})
+                        registerDB(userData).then((result)=>{
+                            if (result == null) {
+                                res.send({status: "success", status_code: 200})
+                            }else{
+                                if (result.detail.search("already exists.")){
+                                    res.send({status: "failed", status_code: 401, message: "user already exist"})
+                                }else{
+                                    res.send({status: "failed", status_code: 401, message: "something went wrong"})
+                                }
+                                
+                            }
+                            
                         })
+                        
                     } else{
                         res.send({
                             status: "failed", 
