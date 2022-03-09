@@ -1,5 +1,6 @@
 const { clientAuthentication } = require("../helpers/helper")
 const { getAttendanceGuruDB, getAttendanceSiswaDB, attendDB } = require("../models/attendance_db")
+const {  successWithMessageResponse, clientAuthFailedResponse, successWithResultResponse } = require("../views/json_responses/response")
 
 module.exports = {
     attendController: (req,res)=>{
@@ -7,17 +8,10 @@ module.exports = {
         if(clientAuthentication(req)){
             
             attendDB(data).then((result)=>{
-                res.send({
-                    status: "success", 
-                    status_code: 200
-                })
+                res.send(successWithMessageResponse("successfully attended"))
             })
         }else{
-            res.send({
-                status: "failed", 
-                message: "Unauthorized Client", 
-                status_code: 401
-            })
+            res.send(clientAuthFailedResponse)
         }    
     },
     // get for guru roles
@@ -26,18 +20,10 @@ module.exports = {
         
         if(clientAuthentication(req)){
             getAttendanceGuruDB(data.guru_id).then((result)=>{
-                res.send({
-                    status: "success", 
-                    status_code: 200,
-                    result: result.rows
-                })
+                res.send(successWithResultResponse(result.rows))
             })
         }else{
-            res.send({
-                status: "failed", 
-                message: "Unauthorized Client", 
-                status_code: 401
-            })
+            res.send(clientAuthFailedResponse)
         }
     },
     // get for siswa roles
@@ -46,18 +32,10 @@ module.exports = {
         if(clientAuthentication(req)){
             getAttendanceSiswaDB(data).then((result)=>{
                 
-                res.send({
-                    status: "success", 
-                    status_code: 200,
-                    result: result.rows
-                })
+                res.send(successWithResultResponse(result.rows))
             })
         }else{
-            res.send({
-                status: "failed", 
-                message: "Unauthorized Client", 
-                status_code: 401
-            })
+            res.send(clientAuthFailedResponse)
         }
     }
 }

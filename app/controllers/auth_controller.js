@@ -2,6 +2,8 @@ const { clientAuthentication, auth, checkRequirements } = require('../helpers/he
 const bcrypt = require('bcrypt');
 const { registerDB, logoutDB, updateTokenDB, findUserByUsernameDB } = require('../models/auth_db');
 const { throws } = require('assert');
+const { loginFailedResponse, requirementsFailedResponse } = require('../views/json_responses/auth_response');
+const { successWithMessageAndResultResponse, clientAuthFailedResponse, successWithMessageResponse, failedWithMessageResponse } = require('../views/json_responses/response');
 module.exports = {
     loginController : (req, res) =>{
         // '{"serverkey":"B1smill4hUJIKOM","username":"fathan1","password":"123123"}'
@@ -13,29 +15,14 @@ module.exports = {
                 console.log(auth(req))
                 findUserByUsernameDB(auth(req).username).then(data =>{
                     if (data.rows.length == 0) {
-                        console.log("no user found")
-                        res.send({
-                            status: "failed", 
-                            message: "Username/Password is wrong", 
-                            status_code: 400
-                        })
+                        res.send(loginFailedResponse)
                     }else{
                         bcrypt.compare(auth(req).password, data.rows[0].password, function(err, result) {
                             if (result){
-                                console.log("success login")
                                 updateTokenDB(auth(req).username, token)
-                                res.send({
-                                    status: "success", 
-                                    message: "successfully logged in", 
-                                    status_code: 200, token: token
-                                })
+                                res.send(successWithMessageAndResultResponse("successfully logged-in", {token: token}))
                             }else{
-                                console.log("password wrong")
-                                res.send({
-                                    status: "failed", 
-                                    message: "Username/Password is wrong", 
-                                    status_code: 400
-                                })
+                                res.send(loginFailedResponse)
                             }
                         });
                         
@@ -44,11 +31,7 @@ module.exports = {
 
                 })
             }else{
-                res.send({
-                    status: "failed", 
-                    message: "Unauthorized Client", 
-                    status_code: 401
-                })
+                res.send(clientAuthFailedResponse)
             }
         });
     },
@@ -69,12 +52,12 @@ module.exports = {
                     if (checkRequirements(data)) {
                         registerDB(userData).then((result)=>{
                             if (result == null) {
-                                res.send({status: "success", status_code: 200})
+                                res.send(successWithMessageResponse("successfully registered an account"))
                             }else{
                                 if (result.detail.search("already exists.")){
-                                    res.send({status: "failed", status_code: 401, message: "user already exist"})
+                                    res.send(failedWithMessageResponse(400,"username is not available"))
                                 }else{
-                                    res.send({status: "failed", status_code: 401, message: "something went wrong"})
+                                    res.send(failedWithMessageResponse(400,"oops, you did something wrong"))
                                 }
                                 
                             }
@@ -82,22 +65,14 @@ module.exports = {
                         })
                         
                     } else{
-                        res.send({
-                            status: "failed", 
-                            message: "requirements not satisfied", 
-                            status_code: 401
-                        })
+                        res.send(requirementsFailedResponse)
                     }
                     
                     
                 });
             });
         }else{
-            res.send({
-                status: "failed", 
-                message: "Unauthorized Client", 
-                status_code: 401
-            })
+            res.send(clientAuthFailedResponse)
         }
     },
     logoutController : (req, res) => {
@@ -105,18 +80,14 @@ module.exports = {
         if(clientAuthentication(req)){
             logoutDB(auth(req).token).then((data)=>{
                 if (data.rowCount > 0){
-                    res.send({status: "success",message: "logged out successfully", status_code: 200})
+                    res.send(successWithMessageResponse("successfully logged-out"))
                 }else{
-                    res.send({status: "failed",message: "session not found or user has already logged out", status_code: 400})
+                    res.send(failedWithMessageResponse(400, "session not found or user has already logged out"))
                 }
                 
             })
         }else{
-            res.send({
-                status: "failed", 
-                message: "Unauthorized Client", 
-                status_code: 401
-            })
+            res.send(clientAuthFailedResponse)
         }
     }
 }
