@@ -13,8 +13,10 @@ app.use(express.static(__dirname+'/public'));
 
 app.use(bodyParser.json())
 
+
 require('./app/routes')
 initAuthRoutes(app)
+
 
 server.listen(3000, () => {
     console.log(`listening at http://localhost:${port}`)

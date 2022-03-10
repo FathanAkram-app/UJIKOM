@@ -6,7 +6,6 @@ const { loginFailedResponse, requirementsFailedResponse } = require('../views/js
 const { successWithMessageAndResultResponse, clientAuthFailedResponse, successWithMessageResponse, failedWithMessageResponse } = require('../views/json_responses/response');
 module.exports = {
     loginController : (req, res) =>{
-        // '{"serverkey":"B1smill4hUJIKOM","username":"fathan1","password":"123123"}'
 
         require('crypto').randomBytes(48, function(err, buffer) {
             const token = buffer.toString('hex');
@@ -35,7 +34,6 @@ module.exports = {
         });
     },
     registerController : (req, res) => {
-        //'{"serverkey":"B1smill4hUJIKOM","username":"fathan1","password":"Fathan123","email": "fathan1@gmail.com", "phone": "082123131"}'
         
         if(clientAuthentication(req)){
             bcrypt.genSalt(10, function(err, salt) {
@@ -69,7 +67,6 @@ module.exports = {
         }
     },
     logoutController : (req, res) => {
-        // '{"serverkey":"B1smill4hUJIKOM","token":"abcd123123"}'
         if(clientAuthentication(req)){
             logoutDB(auth(req).token).then((data)=>{
                 if (data.rowCount > 0){

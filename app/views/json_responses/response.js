@@ -22,10 +22,10 @@ module.exports = {
         }
     },
     
-    failedWithMessageResponse: (ec, msg)=>{
+    failedWithMessageResponse: (errorCode, msg)=>{
         return {
             status: "failed", 
-            status_code: ec,
+            status_code: errorCode,
             message: msg
         }
     },
