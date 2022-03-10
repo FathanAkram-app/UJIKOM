@@ -24,7 +24,7 @@ module.exports = {
         const conn = client()
         await conn.connect()
         try {
-            const res = await conn.query("INSERT INTO users (username, password, email) VALUES ('"+data.username+"', '"+data.password+"', '"+data.email+"');")
+            const res = await conn.query("INSERT INTO users (username, password, email, nama) VALUES ('"+data.username+"', '"+data.password+"', '"+data.email+"', '"+data.nama+"');")
         } catch (error) {
             return error
         }

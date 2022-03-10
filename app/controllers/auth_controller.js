@@ -12,7 +12,6 @@ module.exports = {
             const token = buffer.toString('hex');
             
             if(clientAuthentication(req)){
-                console.log(auth(req))
                 findUserByUsernameDB(auth(req).username).then(data =>{
                     if (data.rows.length == 0) {
                         res.send(loginFailedResponse)
@@ -42,15 +41,9 @@ module.exports = {
             bcrypt.genSalt(10, function(err, salt) {
                 const data = auth(req)
                 bcrypt.hash(data.password, salt, function(err, hash) {
-                    const userData = {
-                        username: data.username,
-                        password: hash,
-                        email: data.email,
-                        phone: data.phone
-                    }
 
                     if (checkRequirements(data)) {
-                        registerDB(userData).then((result)=>{
+                        registerDB({...data, password: hash}).then((result)=>{
                             if (result == null) {
                                 res.send(successWithMessageResponse("successfully registered an account"))
                             }else{

@@ -12,7 +12,7 @@ module.exports = {
             })
         }else{
             res.send(clientAuthFailedResponse)
-        }    
+        }
     },
     // get for guru roles
     getAttendanceGuruController: (req, res)=>{
