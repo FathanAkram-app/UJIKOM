@@ -10,6 +10,10 @@ const { initAuthRoutes } = require('./app/routes')
 const server = http.createServer(app);
 app.use(express.static(__dirname+'/public'));
 
+const { Server } = require("socket.io");
+const { initSocketConnection } = require('./app/socket_connections');
+const io = new Server(server);
+
 
 app.use(bodyParser.json())
 
@@ -17,7 +21,9 @@ app.use(bodyParser.json())
 require('./app/routes')
 initAuthRoutes(app)
 
+initSocketConnection(io)
 
 server.listen(3000, () => {
-    console.log(`listening at http://localhost:${port}`)
-  })
+  console.log(`listening at http://localhost:${port}`)
+})
+

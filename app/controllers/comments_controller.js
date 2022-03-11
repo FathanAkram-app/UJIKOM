@@ -18,6 +18,7 @@ module.exports = {
     },
     getCommentController : (req, res)=>{
         getCommentDB(req.body).then((data)=>{
+            
             res.send(successWithMessageAndResultResponse("successfully added a comment",data.rows))
         })
     }

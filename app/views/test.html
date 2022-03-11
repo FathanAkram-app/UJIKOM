@@ -1,0 +1,25 @@
+<body>
+    <script src="/socket.io/socket.io.js"></script>
+    <input id="username" placeholder="Your username"></input>
+    <button onclick="connect()">connect to</button>
+    <input id="sendto" placeholder="Send To"></input>
+    <div id="chatbox" class="#chatbox">
+    
+    </div>
+    <div>
+        <input id="message" type="text" style="border-style: solid; width: 300px;"/>
+        <button id="send" onclick="send()">Send</button>
+    </div>
+    
+    <script>
+        const socket = io()
+        socket.on("connect", () => {
+            socket.emit("login","1")
+            console.log("connected")
+            
+        });
+        
+        
+
+    </script>
+</body>

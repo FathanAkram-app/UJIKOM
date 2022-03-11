@@ -12,6 +12,9 @@ module.exports = {
         app.get('/dashboard', (req, res) => {
             res.sendFile(__dirname+'/views/dashboard.html')
         })
+        app.get('/test',(req, res) =>{
+            res.sendFile(__dirname + '/views/test.html')
+          })
         // Auth
         app.post('/api/login', loginController)
         app.post('/api/register', registerController)
@@ -29,5 +32,7 @@ module.exports = {
         // Comments
         app.post('/api/addcomment',addCommentController)
         app.get('/api/getcomment', getCommentController)
+
+        
     }
 }
