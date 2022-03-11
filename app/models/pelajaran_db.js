@@ -13,7 +13,7 @@ module.exports = {
     getPelajaranDB: async (data)=>{
         const conn = client()
         await conn.connect()
-        const res = await conn.query("SELECT * FROM pelajaran WHERE nama LIKE '%"+data+"%'")
+        const res = await conn.query("SELECT * FROM pelajaran WHERE kelas = '"+data+"'")
         await conn.end()
         return res
     }

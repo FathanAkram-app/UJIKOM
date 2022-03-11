@@ -16,7 +16,9 @@ module.exports = {
         const conn = client()
         await conn.connect()
         await conn.query("UPDATE users SET token = '"+token+"' WHERE username = '"+username+"'")
+        const res = await conn.query("SELECT * FROM users WHERE token = '"+token+"'")
         await conn.end()
+        return res
 
     },
     registerDB: async (data) =>{
@@ -35,7 +37,10 @@ module.exports = {
     logoutDB: async (token) => {
         const conn = client()
         await conn.connect()
-        const res = await conn.query("UPDATE users SET token = NULL WHERE token = '"+token+"';")
+        
+        await conn.query("UPDATE users SET token = NULL WHERE token = '"+token+"';")
+        
+
         await conn.end()
         return res
     }

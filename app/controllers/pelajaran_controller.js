@@ -13,8 +13,8 @@ module.exports = {
             res.send(clientAuthFailedResponse)
         }
     },
-    getPelajaranController: (req, res)=>{ 
-        getPelajaranDB(req.body.search).then((result)=>{
+    getPelajaranController: (req, res)=>{
+        getPelajaranDB(req.query.kelas).then((result)=>{
             res.send(successWithResultResponse(result.rows))
         })
         
