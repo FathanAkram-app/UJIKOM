@@ -11,7 +11,7 @@ module.exports = {
                 }
                 return [a,"Please fill Username"]
             }else{
-                return true
+                return [true,""]
             }
         }
         let checkEmail = () => {
@@ -22,7 +22,7 @@ module.exports = {
                 }
                 return [a,"Please fill email"]
             }else{
-                return true
+                return [true,""]
             }
         }
         let checkPassword = ()=>{
@@ -34,7 +34,7 @@ module.exports = {
                 }
                 return [a,"Please fill password"]
             }else{
-                return true
+                return [true,""]
             }
         }
 
