@@ -34,13 +34,14 @@ module.exports = {
         });
     },
     registerController : (req, res) => {
+        console.log("something hit this endpoint")
         
         if(clientAuthentication(req)){
             bcrypt.genSalt(10, function(err, salt) {
                 const data = auth(req)
                 bcrypt.hash(data.password, salt, function(err, hash) {
 
-                    if (checkRequirements(data)) {
+                    if (checkRequirements(data)[0]) {
                         registerDB({...data, password: hash}).then((result)=>{
                             if (result == null) {
                                 res.send(successWithMessageResponse("successfully registered an account"))
@@ -56,7 +57,7 @@ module.exports = {
                         })
                         
                     } else{
-                        res.send(requirementsFailedResponse)
+                        res.send(failedWithMessageResponse(400,checkRequirements(data)[1]))
                     }
                     
                     

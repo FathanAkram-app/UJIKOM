@@ -7,9 +7,9 @@ module.exports = {
             if (data["username"] != null) {
                 const a = data["username"].search(/\s/g) < 0;  
                 if (!a) {
-                    console.log("username invalid")
+                    return [a,"Invalid format on username"]
                 }
-                return a
+                return [a,"Please fill Username"]
             }else{
                 return true
             }
@@ -18,9 +18,9 @@ module.exports = {
             if (data["email"] != null) {
                 const a = data["email"].search("@") > 0 && data["email"].search(/\s/g) < 0;
                 if (!a) {
-                    console.log("email invalid")
+                    return [a,"Invalid format on email"]
                 }
-                return a
+                return [a,"Please fill email"]
             }else{
                 return true
             }
@@ -30,10 +30,9 @@ module.exports = {
                 
                 const a = data["password"].search(/\s/g) < 0 && data["password"].match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/) != null;   
                 if (!a) {
-                    console.log(data["password"])
-                    console.log("password invalid")
+                    return [a,"Invalid format on password"]
                 }
-                return a
+                return [a,"Please fill password"]
             }else{
                 return true
             }
