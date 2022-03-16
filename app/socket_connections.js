@@ -8,7 +8,10 @@ module.exports = {
             socket.on("alpha", (siswa_id) => {
                 socket.to(siswa_id).emit("peringatan","Peringatan Alpha")
             })
-            socket.on("disconnect", ()=>{})
+            socket.on("disconnect", ()=>{
+                
+
+            })
         })
     }
 }
