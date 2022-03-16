@@ -1,5 +1,5 @@
 const { clientAuthentication } = require("../helpers/helper")
-const { getPelajaranDB, addPelajaranDB } = require("../models/pelajaran_db")
+const { getPelajaranDB, addPelajaranDB, getPelajaranByKelasDB } = require("../models/pelajaran_db")
 const { successWithMessageResponse, clientAuthFailedResponse, successWithResultResponse } = require("../views/json_responses/response")
 
 module.exports = {
@@ -13,8 +13,14 @@ module.exports = {
             res.send(clientAuthFailedResponse)
         }
     },
+    getPelajaranByKelasController: (req, res)=>{
+        getPelajaranByKelasDB(req.query.kelas).then((result)=>{
+            res.send(successWithResultResponse(result.rows))
+        })
+        
+    },
     getPelajaranController: (req, res)=>{
-        getPelajaranDB(req.query.kelas).then((result)=>{
+        getPelajaranDB().then((result)=>{
             res.send(successWithResultResponse(result.rows))
         })
         
