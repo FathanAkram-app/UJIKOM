@@ -7,7 +7,7 @@ module.exports = {
         try {
             const findUser = await conn.query("SELECT * FROM users WHERE token = '"+token+"'")
             if (findUser.rowCount > 0 && findUser.rows[0].roles == 4) {
-                const res = await conn.query("SELECT * FROM users WHERE (username LIKE '%"+data+"%') OR (email LIKE '%"+data+"%') OR (username LIKE '%"+data+"%') OR (nama LIKE '%"+data+"%') OR (kelas LIKE '%"+data+"%')")
+                const res = await conn.query("SELECT * FROM users WHERE (users.username LIKE '%"+data+"%') OR (users.email LIKE '%"+data+"%') OR (users.nama LIKE '%"+data+"%') OR (users.kelas LIKE '%"+data+"%')")
                 await conn.end()
                 return res
             }else{

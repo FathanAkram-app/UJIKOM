@@ -8,9 +8,9 @@ module.exports = {
         try {
             if(clientAuthentication(req)){
                 
-                getUsersDB(req.body.keywords, req.body.token).then((result)=>{
+                getUsersDB(req.body.search, req.body.token).then((result)=>{
                     if (typeof result != "number") {
-                        res.send(successWithResultResponse(result))
+                        res.send(successWithResultResponse(result.rows))
                     }else{
                         throw 404
                     }
