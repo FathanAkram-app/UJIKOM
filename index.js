@@ -1,4 +1,5 @@
 const express = require('express')
+const cors=require("cors");
 
 const app = express()
 const port = 3000
@@ -16,7 +17,13 @@ const io = new Server(server);
 
 
 app.use(bodyParser.json())
+const corsOptions ={
+  origin:'*', 
+  credentials:true,           
+  optionSuccessStatus:200,
+}
 
+app.use(cors(corsOptions)) 
 
 require('./app/routes')
 initAuthRoutes(app)

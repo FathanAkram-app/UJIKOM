@@ -20,7 +20,7 @@ module.exports = {
         
     },
     getPelajaranController: (req, res)=>{
-        getPelajaranDB().then((result)=>{
+        getPelajaranDB(req.query.search).then((result)=>{
             res.send(successWithResultResponse(result.rows))
         })
         

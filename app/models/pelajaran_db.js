@@ -17,10 +17,10 @@ module.exports = {
         await conn.end()
         return res
     },
-    getPelajaranDB: async ()=>{
+    getPelajaranDB: async (data)=>{
         const conn = client()
         await conn.connect()
-        const res = await conn.query("SELECT pelajaran.*, users.nama AS nama_guru FROM pelajaran INNER JOIN users ON pelajaran.guru_id = users.id")
+        const res = await conn.query("SELECT pelajaran.*, users.nama AS nama_guru FROM pelajaran INNER JOIN users ON pelajaran.guru_id = users.id WHERE (pelajaran.nama LIKE '%"+data+"%') OR (pelajaran.kelas LIKE '%"+data+"%') OR (users.nama LIKE '%"+data+"%')")
         await conn.end()
         return res
     }

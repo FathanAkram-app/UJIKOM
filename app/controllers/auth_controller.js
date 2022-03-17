@@ -17,8 +17,10 @@ module.exports = {
                     }else{
                         bcrypt.compare(auth(req).password, data.rows[0].password, function(err, result) {
                             if (result){
-                                updateTokenDB(auth(req).username, token).then((result)=>{
-                                    res.send(successWithMessageAndResultResponse("successfully logged-in", result.rows))
+                                updateTokenDB(auth(req).username, token).then(()=>{
+                                    const user = data.rows[0]
+                                    user.token = token
+                                    res.send(successWithMessageAndResultResponse("successfully logged-in", user))
                                 })
                             }else{
                                 res.send(loginFailedResponse)
