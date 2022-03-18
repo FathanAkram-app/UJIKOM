@@ -12,7 +12,7 @@ module.exports = {
                     if (typeof result != "number") {
                         res.send(successWithResultResponse(result.rows))
                     }else{
-                        throw 404
+                        res.send(failedWithMessageResponse(401,"you are not an admin"))
                     }
                     
                 })

@@ -37,7 +37,6 @@ module.exports = {
         });
     },
     registerController : (req, res) => {
-        console.log("something hit this endpoint")
         
         if(clientAuthentication(req)){
             bcrypt.genSalt(10, function(err, salt) {

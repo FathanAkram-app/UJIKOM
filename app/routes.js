@@ -2,7 +2,7 @@ const { loginAdminController, getUsersController } = require("./controllers/admi
 const { getAttendanceGuruController, getAttendanceSiswaController, attendController } = require("./controllers/attendance_controller")
 const { loginController, registerController, logoutController } = require("./controllers/auth_controller")
 const { addCommentController, getCommentController } = require("./controllers/comments_controller")
-const { addPelajaranController, getPelajaranController, getPelajaranByKelasController } = require("./controllers/pelajaran_controller")
+const { addPelajaranController, getPelajaranController, getPelajaranByKelasController, getPelajaranByGuruIdController, deletePelajaranController } = require("./controllers/pelajaran_controller")
 
 
 module.exports = {
@@ -24,7 +24,9 @@ module.exports = {
         // Pelajaran
         app.post('/api/addpelajaran', addPelajaranController)
         app.get('/api/getpelajaranbykelas',getPelajaranByKelasController)
+        app.get('/api/getpelajaranbyguruid',getPelajaranByGuruIdController)
         app.get('/api/getpelajaran',getPelajaranController)
+        app.post('/api/deletepelajaran',deletePelajaranController)
 
         // Attendance
         app.post('/api/getattendanceguru', getAttendanceGuruController)
