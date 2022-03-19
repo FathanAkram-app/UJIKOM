@@ -2,14 +2,7 @@ const { client } = require('../helpers/helper')
 
 
 module.exports = {
-    addPelajaranDB: async (data)=>{
-        console.log(data.nama+"', '"+data.kelas+"', '"+data.guru_id+"', '"+data.waktu+"', '"+data.materi)
-        const conn = client()
-        await conn.connect()
-        const res = await conn.query("INSERT INTO pelajaran (nama, kelas, guru_id, waktu, materi) VALUES ('"+data.nama+"', '"+data.kelas+"', '"+data.guru_id+"', '"+data.waktu+"', '"+data.materi+"')")
-        await conn.end()
-        return res
-    },
+    
 
     getPelajaranByKelasDB: async (data)=>{
         const conn = client()
@@ -45,14 +38,6 @@ module.exports = {
         const conn = client()
         await conn.connect()
         const res = await conn.query("SELECT pelajaran.*, users.nama AS nama_guru FROM pelajaran INNER JOIN users ON pelajaran.guru_id = users.id WHERE (pelajaran.nama LIKE '%"+data+"%') OR (pelajaran.kelas LIKE '%"+data+"%') OR (users.nama LIKE '%"+data+"%')")
-        
-        await conn.end()
-        return res
-    },
-    deletePelajaranDB: async (data)=>{
-        const conn = client()
-        await conn.connect()
-        const res = await conn.query("DELETE FROM pelajaran WHERE id = "+data)
         
         await conn.end()
         return res

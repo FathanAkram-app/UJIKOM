@@ -47,7 +47,7 @@ module.exports = {
                         registerDB({...data, password: hash}).then((result)=>{
                             if (result == null) {
                                 res.send(successWithMessageResponse("successfully registered an account"))
-                            }else{
+                            }else{ 
                                 if (result.detail.search("already exists.")){
                                     res.send(failedWithMessageResponse(400,"username is not available"))
                                 }else{
