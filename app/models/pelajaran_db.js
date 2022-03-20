@@ -9,7 +9,6 @@ module.exports = {
         await conn.connect()
         const usersArray = "ARRAY(SELECT id FROM users WHERE kelas = '"+data+"') AS id_siswa, ARRAY(SELECT nama FROM users WHERE kelas = '"+data+"') AS nama_siswa"
         const res = await conn.query("SELECT pelajaran.*, users.nama AS nama_guru, "+usersArray+" FROM pelajaran INNER JOIN users ON pelajaran.guru_id = users.id WHERE pelajaran.kelas = '"+data+"'")
-        
         await conn.end()
         return res
     },
