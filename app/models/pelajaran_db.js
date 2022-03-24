@@ -9,6 +9,18 @@ module.exports = {
         await conn.connect()
         const usersArray = "ARRAY(SELECT id FROM users WHERE kelas = '"+data+"') AS id_siswa, ARRAY(SELECT nama FROM users WHERE kelas = '"+data+"') AS nama_siswa"
         const res = await conn.query("SELECT pelajaran.*, users.nama AS nama_guru, "+usersArray+" FROM pelajaran INNER JOIN users ON pelajaran.guru_id = users.id WHERE pelajaran.kelas = '"+data+"'")
+        for (const key in res.rows) {
+            const a = res.rows[key].id_siswa
+            
+            const arr = []
+            for (const i in a) {
+                arr.push({id_siswa: res.rows[key].id_siswa[i], nama_siswa: res.rows[key].nama_siswa[i]})
+            }
+            res.rows[key].siswa = arr
+            delete res.rows[key].id_siswa
+            delete res.rows[key].nama_siswa
+            
+        }
         await conn.end()
         return res
     },
