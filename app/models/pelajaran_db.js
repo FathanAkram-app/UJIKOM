@@ -27,18 +27,21 @@ module.exports = {
     getPelajaranByGuruIdDB: async (data)=>{
         const conn = client()
         await conn.connect()
+
+        const hadirsArray = "ARRAY(SELECT status FROM hadir WHERE pelajaran_id = pelajaran.id) AS status"
         const usersArray = "ARRAY(SELECT id FROM users WHERE kelas = pelajaran.kelas) AS id_siswa, ARRAY(SELECT nama FROM users WHERE kelas = pelajaran.kelas) AS nama_siswa"
-        const res = await conn.query("SELECT pelajaran.*, users.nama AS nama_guru, "+usersArray+" FROM pelajaran INNER JOIN users ON pelajaran.guru_id = users.id WHERE pelajaran.guru_id = '"+data+"'")
+        const res = await conn.query("SELECT pelajaran.*, users.nama AS nama_guru,"+hadirsArray+", "+usersArray+" FROM pelajaran INNER JOIN users ON pelajaran.guru_id = users.id WHERE pelajaran.guru_id = '"+data+"'")
         for (const key in res.rows) {
             const a = res.rows[key].id_siswa
             
             const arr = []
             for (const i in a) {
-                arr.push({id_siswa: res.rows[key].id_siswa[i], nama_siswa: res.rows[key].nama_siswa[i]})
+                arr.push({id_siswa: res.rows[key].id_siswa[i], nama_siswa: res.rows[key].nama_siswa[i], status: res.rows[key].status[i]})
             }
             res.rows[key].siswa = arr
             delete res.rows[key].id_siswa
             delete res.rows[key].nama_siswa
+            delete res.rows[key].status
             
         }
         
