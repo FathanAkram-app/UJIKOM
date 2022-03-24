@@ -1,5 +1,5 @@
 const { clientAuthentication } = require("../helpers/helper")
-const { getAttendanceGuruDB, getAttendanceSiswaDB, attendDB } = require("../models/attendance_db")
+const { getAttendanceGuruDB, getAttendanceSiswaDB, attendDB, getAttendanceByKelasDB, getAttendanceByPelajaranDB } = require("../models/attendance_db")
 const {  successWithMessageResponse, clientAuthFailedResponse, successWithResultResponse } = require("../views/json_responses/response")
 
 module.exports = {
@@ -31,6 +31,17 @@ module.exports = {
         const data = req.body
         if(clientAuthentication(req)){
             getAttendanceSiswaDB(data).then((result)=>{
+                
+                res.send(successWithResultResponse(result.rows))
+            })
+        }else{
+            res.send(clientAuthFailedResponse)
+        }
+    },
+    getAttendanceByPelajaranController: (req, res)=>{
+        const data = req.body
+        if(clientAuthentication(req)){
+            getAttendanceByPelajaranDB(data.pelajaran_id).then((result)=>{
                 
                 res.send(successWithResultResponse(result.rows))
             })
