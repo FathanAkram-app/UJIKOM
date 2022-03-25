@@ -1,5 +1,6 @@
 const { Client } = require('pg')
 const version = require('../../package.json')
+require('dotenv').config()
 
 module.exports = {
     checkRequirements : (data) => {
@@ -46,11 +47,11 @@ module.exports = {
     },
     client : () => {
         return new Client({
-            user: 'postgres',
-            host: 'localhost',
-            database: 'ujikom',
-            password: '123',
-            port: 5432,
+            user: process.env.DB_USER,
+            host: process.env.DB_HOST,
+            database: process.env.DB_NAME,
+            password: process.env.DB_PASS,
+            port: process.env.DB_PORT,
         })
     },
     clientAuthentication : (req)=>{
