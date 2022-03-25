@@ -32,24 +32,25 @@ module.exports = {
         const q = await conn.query("SELECT * FROM hadir WHERE hadir.guru_id = '"+data+"'")
         for (const key in res.rows) {
             const a = res.rows[key].id_siswa
-            
             const arr = []
             for (const i in a) {
-                const ob = {id_siswa: a[i], nama_siswa: res.rows[key].nama_siswa[i]}
-                for (const k in q.rows) {
-                    if(a[i] == q.rows[k].siswa_id && q.rows[k].pelajaran_id == res.rows[key].id){
-                        ob["status"] = q.rows[k].status
+                if (res.rows[key].guru_id!=a[i]) {
+                    const ob = {id_siswa: a[i], nama_siswa: res.rows[key].nama_siswa[i]}
+                    for (const k in q.rows) {
+                        if(a[i] == q.rows[k].siswa_id && q.rows[k].pelajaran_id == res.rows[key].id){
+                            ob["status"] = q.rows[k].status
+                        }
+                        
                     }
-                    
+                    arr.push(ob)
                 }
-                arr.push(ob)
+                
             }
             res.rows[key].siswa = arr
             delete res.rows[key].id_siswa
             delete res.rows[key].nama_siswa
             
         }
-        console.log(q.rows)
         
         await conn.end()
         return res
