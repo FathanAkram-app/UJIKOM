@@ -29,18 +29,27 @@ module.exports = {
         await conn.connect()
         const usersArray = "ARRAY(SELECT id FROM users WHERE kelas = pelajaran.kelas) AS id_siswa, ARRAY(SELECT nama FROM users WHERE kelas = pelajaran.kelas) AS nama_siswa"
         const res = await conn.query("SELECT pelajaran.*, users.nama AS nama_guru, "+usersArray+" FROM pelajaran INNER JOIN users ON pelajaran.guru_id = users.id WHERE pelajaran.guru_id = '"+data+"'")
+        const q = await conn.query("SELECT * FROM hadir WHERE hadir.guru_id = '"+data+"'")
         for (const key in res.rows) {
             const a = res.rows[key].id_siswa
             
             const arr = []
             for (const i in a) {
-                arr.push({id_siswa: res.rows[key].id_siswa[i], nama_siswa: res.rows[key].nama_siswa[i]})
+                const ob = {id_siswa: a[i], nama_siswa: res.rows[key].nama_siswa[i]}
+                for (const k in q.rows) {
+                    if(a[i] == q.rows[k].siswa_id && q.rows[k].pelajaran_id == res.rows[key].id){
+                        ob["status"] = q.rows[k].status
+                    }
+                    
+                }
+                arr.push(ob)
             }
             res.rows[key].siswa = arr
             delete res.rows[key].id_siswa
             delete res.rows[key].nama_siswa
             
         }
+        console.log(q.rows)
         
         await conn.end()
         return res
