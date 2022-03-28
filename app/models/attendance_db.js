@@ -39,11 +39,13 @@ module.exports = {
             const collumns = "(pelajaran_id, siswa_id, status, guru_id)"
             const values = "("+data.pelajaran_id+", "+data.siswa_id+", "+data.status+", "+data.guru_id+")"
             const res = await conn.query("INSERT INTO hadir "+collumns+" VALUES "+values)
+            await conn.end()
+            return res
         }
+        return findAttend
 
         // const res = await conn.query("DELETE FROM users WHERE id = "+data.id)
         
-        await conn.end()
-        return res
+        
     }
 }
