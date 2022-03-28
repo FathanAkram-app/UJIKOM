@@ -35,11 +35,14 @@ module.exports = {
         if (findAttend.rowCount>0) {
             await conn.query("DELETE FROM hadir WHERE pelajaran_id = "+data.pelajaran_id+" AND siswa_id = "+data.siswa_id)
         }
+        if (data.status != 0) {
+            const collumns = "(pelajaran_id, siswa_id, status, guru_id)"
+            const values = "("+data.pelajaran_id+", "+data.siswa_id+", "+data.status+", "+data.guru_id+")"
+            const res = await conn.query("INSERT INTO hadir "+collumns+" VALUES "+values)
+        }
 
         // const res = await conn.query("DELETE FROM users WHERE id = "+data.id)
-        const collumns = "(pelajaran_id, siswa_id, status, guru_id)"
-        const values = "("+data.pelajaran_id+", "+data.siswa_id+", "+data.status+", "+data.guru_id+")"
-        const res = await conn.query("INSERT INTO hadir "+collumns+" VALUES "+values)
+        
         await conn.end()
         return res
     }
