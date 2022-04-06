@@ -46,17 +46,18 @@ module.exports = {
         
     },
     client : () => {
-        return new Client({
+        const data = {
             user: process.env.DB_USER,
             host: process.env.DB_HOST,
             database: process.env.DB_NAME,
             password: process.env.DB_PASS,
             port: process.env.DB_PORT,
-        })
+        }
+        return new Client(data)
     },
     clientAuthentication : (req)=>{
         if (req.headers.authorization != null) {
-            return JSON.parse(Buffer.from(req.headers.authorization, 'base64').toString('ascii')).serverkey == version["serverkey"]    
+            return JSON.parse(Buffer.from(req.headers.authorization, 'base64').toString('ascii')).serverkey == process.env.API_KEY    
         }else{
             return false
         }

@@ -84,6 +84,7 @@ module.exports = {
     editPelajaranDB: async (data)=>{
         const conn = client()
         await conn.connect()
+        console.log(data)
         const findUser = await conn.query("SELECT * FROM users WHERE token = '"+data.token+"'")
         if (findUser.rows.length > 0 && findUser.rows[0].roles == 4) {
             const set = "nama = '"+data.nama_pelajaran+"', kelas = '"+data.kelas+"', guru_id = "+data.id_guru+", waktu = '"+data.jampelajaran+"', materi = '"+data.materi+"'"

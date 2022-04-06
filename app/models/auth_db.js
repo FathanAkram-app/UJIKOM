@@ -7,6 +7,7 @@ module.exports = {
     findUserByUsernameDB: async (username)=>{
         const conn = client()
         await conn.connect()
+        
         const res = await conn.query("SELECT * FROM users WHERE username = '"+username+"'")
         
         await conn.end()
@@ -26,8 +27,9 @@ module.exports = {
         const conn = client()
         await conn.connect()
         try {
-            const res = await conn.query("INSERT INTO users (username, password, email, nama,kelas) VALUES ('"+data.username+"', '"+data.password+"', '"+data.email+"', '"+data.nama+"',  '"+data.kelas+"');")
+            await conn.query("INSERT INTO users (username, password, email, nama,kelas) VALUES ('"+data.username+"', '"+data.password+"', '"+data.email+"', '"+data.nama+"',  '"+data.kelas+"');")
         } catch (error) {
+            await conn.end()
             return error
         }
         
@@ -37,7 +39,6 @@ module.exports = {
     logoutDB: async (token) => {
         const conn = client()
         await conn.connect()
-        
         await conn.query("UPDATE users SET token = NULL WHERE token = '"+token+"';")
         
 

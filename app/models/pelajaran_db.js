@@ -13,6 +13,15 @@ module.exports = {
         await conn.end()
         return res
     },
+    getPelajaranBySiswaIdDB: async (data)=>{
+        const conn = client()
+        await conn.connect()
+        const res = await conn.query("SELECT pelajaran.*, users.nama AS nama_guru, hadir.status FROM pelajaran INNER JOIN users ON pelajaran.guru_id = users.id LEFT JOIN hadir ON hadir.pelajaran_id = pelajaran.id WHERE hadir.siswa_id = '"+data+"'")
+
+
+        await conn.end()
+        return res
+    },
     getPelajaranByGuruIdDB: async (data)=>{
         const conn = client()
         await conn.connect()

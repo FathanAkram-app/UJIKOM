@@ -6,7 +6,7 @@ const { loginFailedResponse, requirementsFailedResponse } = require('../views/js
 const { successWithMessageAndResultResponse, clientAuthFailedResponse, successWithMessageResponse, failedWithMessageResponse } = require('../views/json_responses/response');
 module.exports = {
     loginController : (req, res) =>{
-
+        console.log(auth(req))
         require('crypto').randomBytes(48, function(err, buffer) {
             const token = buffer.toString('hex');
             
@@ -26,6 +26,7 @@ module.exports = {
                                 res.send(loginFailedResponse)
                             }
                         });
+                        
                         
 
                     }
@@ -48,10 +49,10 @@ module.exports = {
                             if (result == null) {
                                 res.send(successWithMessageResponse("successfully registered an account"))
                             }else{ 
-                                if (result.detail.search("already exists.")){
+                                if (result.detail && result.detail.search("already exists.")){
                                     res.send(failedWithMessageResponse(400,"username is not available"))
                                 }else{
-                                    res.send(failedWithMessageResponse(400,"oops, you did something wrong"))
+                                    res.send(failedWithMessageResponse(400,result))
                                 }
                                 
                             }
