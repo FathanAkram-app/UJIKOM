@@ -7,6 +7,12 @@ const { getPelajaranController, getPelajaranByKelasController, getPelajaranByGur
 
 module.exports = {
     initAuthRoutes: (app)=>{
+        app.get('/siswa', (req, res) => {
+            res.sendFile(__dirname+'/views/siswatest.html')
+        })
+        app.get('/guru', (req, res) => {
+            res.sendFile(__dirname+'/views/gurutest.html')
+        })
         // Auth
         app.post('/api/login', loginController)
         app.post('/api/register', registerController)

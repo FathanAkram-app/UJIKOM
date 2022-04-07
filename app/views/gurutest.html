@@ -1,0 +1,28 @@
+<body>
+    <script src="/socket.io/socket.io.js"></script>
+    <input id="siswaid" placeholder="Isi Siswa Id"></input>
+    <input id="message" placeholder="message"></input>
+    <button onclick="sendNotif()">Send Notification</button>
+    
+    
+    <script>
+        const socket = io();
+        // koneksi ke websocket
+        socket.on("connect", () => {
+            console.log("connected")
+            
+        });
+        
+        // saat guru memencet pilihan alpha maka akan mengirimkan event "alpha" ke websocket server
+        function sendNotif(){
+            // siswaid ambil dari response getPelajaranByGuruId dari salah satu siswanya yang nama keynya "id"
+            const siswaid = document.getElementById('siswaid').value
+            // message isinya apa aja terserah, kalau mau "Anda mendapatkan peringatan alpha"
+            const message = document.getElementById('message').value
+            // kirim ke event "notification"
+            socket.emit("notification",siswaid,message)
+        }
+        
+
+    </script>
+</body>

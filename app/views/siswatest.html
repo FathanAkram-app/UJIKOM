@@ -1,0 +1,34 @@
+<body>
+    <script src="/socket.io/socket.io.js"></script>
+    <input id="siswaid" placeholder="Your Siswa Id"></input>
+    <button onclick="connect()">connect</button>
+    
+    </div>
+
+    
+    <script>
+        const socket = io();
+        // koneksi ke websocket
+        socket.on("connect", () => {
+            // listener untuk event "notification"
+            socket.on("notification", (data) => {
+                // tampilkan notifikasi
+                console.log(data)
+            })
+            
+            
+        });
+
+        // saat user login maka akan mengirimkan event "login" ke websocket server
+        function connect(){
+            // siswaid ambil dari response login yang nama keynya "id"
+            const siswaid = document.getElementById('siswaid').value
+            // kirim ke event "login"
+            socket.emit("login",siswaid)
+        }
+
+        
+        
+
+    </script>
+</body>
