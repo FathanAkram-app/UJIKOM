@@ -8,6 +8,7 @@ module.exports = {
             })
             socket.on("notification", (siswa_id,message) => {
                 socket.to(siswa_id).emit("notification",message)
+                console.log("message : '"+message+"' Sent to userID : "+ siswa_id)
             })
             socket.on("disconnect", ()=>{
                 
